@@ -1,0 +1,82 @@
+package sn.esmt.finperso.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import sn.esmt.finperso.R;
+import sn.esmt.finperso.adapter.DepenseAdapter;
+import sn.esmt.finperso.viewmodel.DashboardViewModel;
+
+public class DashboardFragment extends Fragment {
+
+    private DashboardViewModel viewModel;
+    private TextView tvSolde, tvTotalDepenses, tvTotalRevenus, tvMoisAnnee;
+    private RecyclerView rvDernieres;
+    private DepenseAdapter adapter;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                           @Nullable ViewGroup container,
+                           @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        tvSolde = view.findViewById(R.id.tv_solde);
+        tvTotalDepenses = view.findViewById(R.id.tv_total_depenses);
+        tvTotalRevenus = view.findViewById(R.id.tv_total_revenus);
+        tvMoisAnnee = view.findViewById(R.id.tv_mois_annee);
+        rvDernieres = view.findViewById(R.id.rv_dernieres_depenses);
+
+        Calendar cal = Calendar.getInstance();
+        String moisStr = new SimpleDateFormat("MMMM yyyy", Locale.FRENCH).format(cal.getTime());
+        tvMoisAnnee.setText(Character.toUpperCase(moisStr.charAt(0)) + moisStr.substring(1));
+
+        adapter = new DepenseAdapter(depense -> {});
+        rvDernieres.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvDernieres.setAdapter(adapter);
+        rvDernieres.setNestedScrollingEnabled(false);
+
+        viewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+
+        String mois = String.format(Locale.getDefault(), "%02d", cal.get(Calendar.MONTH) + 1);
+        String annee = String.valueOf(cal.get(Calendar.YEAR));
+
+        viewModel.getDernieresCinq().observe(getViewLifecycleOwner(), depenses -> adapter.setData(depenses));
+
+        viewModel.getSolde(mois, annee).observe(getViewLifecycleOwner(), solde -> {
+            DecimalFormat df = new DecimalFormat("#,###");
+            tvSolde.setText(df.format(solde) + " Fcfa");
+            tvSolde.setTextColor(ContextCompat.getColor(requireContext(), 
+                solde >= 0 ? R.color.vert : R.color.rouge));
+        });
+
+        viewModel.getTotalDepenses(mois, annee).observe(getViewLifecycleOwner(), total -> {
+            tvTotalDepenses.setText(new DecimalFormat("#,###").format(total) + " Fcfa");
+        });
+
+        viewModel.getTotalRevenus(mois, annee).observe(getViewLifecycleOwner(), total -> {
+            tvTotalRevenus.setText(new DecimalFormat("#,###").format(total) + " Fcfa");
+        });
+    }
+}

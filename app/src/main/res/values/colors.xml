@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#0B1326</color>
+    <color name="primary">#5AF0B3</color>
+    <color name="primary_dark">#003825</color>
+    <color name="surface">#171F33</color>
+    <color name="surface_light">#222A3D</color>
+    <color name="text_primary">#DAE2FD</color>
+    <color name="text_secondary">#BBCAC0</color>
+    <color name="accent_orange">#F97316</color>
+    <color name="vert">#4CAF50</color>
+    <color name="rouge">#F44336</color>
+    <color name="orange">#FF9800</color>
 </resources>
