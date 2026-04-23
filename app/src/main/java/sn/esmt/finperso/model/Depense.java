@@ -20,10 +20,10 @@ public class Depense {
 
     public double montant;
     public int categorieId;
-    public Integer rubriqueId;
-    public long date;
+    public Integer rubriqueId;  // nullable
+    public long date;           // timestamp millis
     public String description;
-    public String moyenPaiement;
+    public String moyenPaiement; // Espèces, Mobile Money, Carte, Autre
     public long createdAt;
 
     public Depense(double montant, int categorieId, Integer rubriqueId,

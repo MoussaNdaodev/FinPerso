@@ -13,6 +13,7 @@ import sn.esmt.finperso.model.Revenu;
 
 @Dao
 public interface RevenuDao {
+
     @Insert
     void insert(Revenu revenu);
 

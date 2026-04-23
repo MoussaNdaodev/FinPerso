@@ -10,7 +10,7 @@ public class Categorie {
     public int id;
 
     public String nom;
-    public String couleur;
+    public String couleur;   // ex: "#FF5722"
     public boolean estDefaut;
 
     public Categorie(String nom, String couleur, boolean estDefaut) {

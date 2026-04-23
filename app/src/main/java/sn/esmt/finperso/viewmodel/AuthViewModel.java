@@ -4,32 +4,41 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import sn.esmt.finperso.database.AppDatabase;
 import sn.esmt.finperso.model.Utilisateur;
 import sn.esmt.finperso.repository.AuthRepository;
 
 public class AuthViewModel extends AndroidViewModel {
 
-    private final AuthRepository repository;
+    private AuthRepository repository;
 
     public AuthViewModel(@NonNull Application application) {
         super(application);
         repository = new AuthRepository(application);
     }
 
-    public LiveData<Utilisateur> login(String email, String password) {
-        MutableLiveData<Utilisateur> result = new MutableLiveData<>();
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            Utilisateur user = repository.login(email, password);
-            result.postValue(user);
-        });
-        return result;
+    // Connexion
+    public Utilisateur login(String email, String password){
+        return repository.login(email, password);
     }
 
-    public void register(Utilisateur user) {
-        repository.register(user);
+    // Récupérer un utilisateur par email
+    public Utilisateur getUserByEmail(String email){
+        return repository.getUserByEmail(email);
+    }
+
+    // Mettre à jour le mot de passe
+    public void updatePassword(Utilisateur user, String newPassword){
+        user.motDePasse = newPassword;
+        repository.updateUser(user);
+    }
+
+    // Nouvelle méthode pour ForgotPasswordActivity
+    public void resetPassword(String email, String newPassword){
+        Utilisateur user = repository.getUserByEmail(email);
+        if (user != null) {
+            updatePassword(user, newPassword);
+        }
+        // Tu peux ajouter une logique de feedback (Toast, LiveData, etc.)
     }
 }

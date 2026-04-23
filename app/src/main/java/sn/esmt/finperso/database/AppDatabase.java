@@ -62,11 +62,13 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /** Données initiales : catégories et rubriques par défaut */
     private static void seedDatabase(AppDatabase db) {
         UtilisateurDao utilisateurDao = db.utilisateurDao();
         CategorieDao catDao = db.categorieDao();
         RubriqueDao rubDao = db.rubriqueDao();
 
+        // Utilisateur par défaut
         Utilisateur defaultUser = new Utilisateur("Utilisateur", "admin@finperso.sn", "admin123");
         utilisateurDao.insert(defaultUser);
 
@@ -85,27 +87,36 @@ public abstract class AppDatabase extends RoomDatabase {
                 {"Alimentation",  "Restaurant"},
                 {"Alimentation",  "Marché"},
                 {"Alimentation",  "Épicerie"},
+                {"Alimentation",  "Fast-food"},
                 {"Transport",     "Taxi"},
                 {"Transport",     "Bus"},
                 {"Transport",     "Carburant"},
+                {"Transport",     "Parking"},
                 {"Logement",      "Loyer"},
                 {"Logement",      "Électricité"},
                 {"Logement",      "Eau"},
+                {"Logement",      "Internet"},
                 {"Santé",         "Pharmacie"},
                 {"Santé",         "Consultation"},
+                {"Santé",         "Hôpital"},
                 {"Education",     "Frais scolaires"},
                 {"Education",     "Fournitures"},
+                {"Education",     "Livres"},
                 {"Loisirs",       "Divertissement"},
                 {"Loisirs",       "Sport"},
+                {"Loisirs",       "Voyage"},
                 {"Habillement",   "Vêtements"},
                 {"Habillement",   "Chaussures"},
+                {"Habillement",   "Accessoires"},
         };
 
+        // Insert categories
         for (String[] cat : categories) {
             Categorie c = new Categorie(cat[0], cat[1], true);
             catDao.insert(c);
         }
 
+        // Insert rubriques (resolve FK par nom)
         for (String[] rub : rubriques) {
             Categorie cat = catDao.getAllCategoriesSync()
                     .stream().filter(c -> c.nom.equals(rub[0])).findFirst().orElse(null);

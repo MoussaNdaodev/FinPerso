@@ -10,8 +10,8 @@ public class Revenu {
     public int id;
 
     public double montant;
-    public String source;
-    public long date;
+    public String source; // Salaire, Commerce, Freelance, Don, Autre
+    public long date;     // timestamp millis
     public String description;
     public long createdAt;
 

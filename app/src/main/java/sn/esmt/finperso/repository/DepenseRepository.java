@@ -35,12 +35,24 @@ public class DepenseRepository {
         return depenseDao.getAllDepensesAvecCategorie();
     }
 
+    public LiveData<List<DepenseAvecCategorie>> getParMois(String mois, String annee) {
+        return depenseDao.getDepensesParMois(mois, annee);
+    }
+
+    public LiveData<List<DepenseAvecCategorie>> getParCategorie(int categorieId) {
+        return depenseDao.getDepensesParCategorie(categorieId);
+    }
+
     public LiveData<List<DepenseAvecCategorie>> getDernieresCinq() {
         return depenseDao.getDernieresCinqDepenses();
     }
 
     public double getTotalParMois(String mois, String annee) {
         return depenseDao.getTotalDepensesParMois(mois, annee);
+    }
+
+    public double getTotalParCategorie(int categorieId, String mois, String annee) {
+        return depenseDao.getTotalParCategorie(categorieId, mois, annee);
     }
 
     public Depense getById(int id) {

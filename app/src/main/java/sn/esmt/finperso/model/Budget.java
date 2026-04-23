@@ -20,9 +20,9 @@ public class Budget {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public Integer categorieId;
+    public Integer categorieId; // null = budget global
     public double montantPlafond;
-    public int mois;
+    public int mois;   // 1-12
     public int annee;
 
     public Budget(Integer categorieId, double montantPlafond, int mois, int annee) {

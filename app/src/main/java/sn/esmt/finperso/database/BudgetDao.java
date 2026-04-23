@@ -14,6 +14,7 @@ import sn.esmt.finperso.model.BudgetAvecProgression;
 
 @Dao
 public interface BudgetDao {
+
     @Insert
     void insert(Budget budget);
 
@@ -29,12 +30,20 @@ public interface BudgetDao {
     @Query("SELECT * FROM budgets WHERE categorieId = :categorieId AND mois = :mois AND annee = :annee LIMIT 1")
     Budget getBudgetByCategorie(int categorieId, int mois, int annee);
 
+    @Query("SELECT * FROM budgets WHERE categorieId IS NULL AND mois = :mois AND annee = :annee LIMIT 1")
+    Budget getBudgetGlobal(int mois, int annee);
+
+    @Query("SELECT * FROM budgets WHERE id = :id LIMIT 1")
+    Budget getBudgetById(int id);
+
+    /* ---- Budgets avec progression (JOIN) ---- */
     @Query("SELECT b.id AS budgetId, b.categorieId, c.nom AS categorieNom, " +
             "c.couleur AS categorieCouleur, b.montantPlafond, b.mois, b.annee, " +
-            "COALESCE((SELECT SUM(d.montant) FROM depenses d " +
-            "WHERE d.categorieId = b.categorieId " +
-            "AND strftime('%m', datetime(d.date/1000,'unixepoch')) = printf('%02d', b.mois) " +
-            "AND strftime('%Y', datetime(d.date/1000,'unixepoch')) = CAST(b.annee AS TEXT)" +
+            "COALESCE((" +
+            "  SELECT SUM(d.montant) FROM depenses d " +
+            "  WHERE d.categorieId = b.categorieId " +
+            "  AND strftime('%m', datetime(d.date/1000,'unixepoch')) = printf('%02d', b.mois) " +
+            "  AND strftime('%Y', datetime(d.date/1000,'unixepoch')) = CAST(b.annee AS TEXT)" +
             "), 0) AS montantConsomme " +
             "FROM budgets b " +
             "LEFT JOIN categories c ON b.categorieId = c.id " +

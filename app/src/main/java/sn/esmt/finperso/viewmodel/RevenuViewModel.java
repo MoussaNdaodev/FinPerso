@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import sn.esmt.finperso.database.AppDatabase;
 import sn.esmt.finperso.model.Revenu;
 import sn.esmt.finperso.repository.RevenuRepository;
 

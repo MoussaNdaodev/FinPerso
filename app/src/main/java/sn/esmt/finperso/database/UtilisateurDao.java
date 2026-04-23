@@ -1,7 +1,6 @@
 package sn.esmt.finperso.database;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -10,6 +9,7 @@ import sn.esmt.finperso.model.Utilisateur;
 
 @Dao
 public interface UtilisateurDao {
+
     @Insert
     void insert(Utilisateur user);
 
