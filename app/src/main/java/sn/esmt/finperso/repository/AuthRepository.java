@@ -9,7 +9,6 @@ import sn.esmt.finperso.model.Utilisateur;
 public class AuthRepository {
 
     private final UtilisateurDao utilisateurDao;
-
     public AuthRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         utilisateurDao = db.utilisateurDao();
