@@ -35,10 +35,10 @@ public class RevenuRepository {
     }
 
     public LiveData<List<Revenu>> getParMois(String mois, String annee) {
-        return revenuDao.getRevenusByMois(mois, annee);
+        return revenuDao.getRevenusFiltres(mois, annee);
     }
 
-    public double getTotalParMois(String mois, String annee) {
+    public LiveData<Double> getTotalParMois(String mois, String annee) {
         return revenuDao.getTotalRevenusParMois(mois, annee);
     }
 

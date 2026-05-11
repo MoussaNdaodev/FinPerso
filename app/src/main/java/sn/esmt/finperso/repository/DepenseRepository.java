@@ -39,8 +39,12 @@ public class DepenseRepository {
         return depenseDao.getDernieresCinqDepenses();
     }
 
-    public double getTotalParMois(String mois, String annee) {
+    public LiveData<Double> getTotalParMois(String mois, String annee) {
         return depenseDao.getTotalDepensesParMois(mois, annee);
+    }
+
+    public LiveData<List<DepenseAvecCategorie>> getDepensesFiltrees(String mois, String annee, int categorieId) {
+        return depenseDao.getDepensesFiltrees(mois, annee, categorieId);
     }
 
     public Depense getById(int id) {

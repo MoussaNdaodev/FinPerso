@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private Button btnLogin;
+    private TextView tvForgotPassword;
     private AuthViewModel viewModel;
 
     @Override
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.email);
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.loginBtn);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
@@ -47,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(this, "Identifiants incorrects", Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        tvForgotPassword.setOnClickListener(v -> {
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
         });
     }
 }

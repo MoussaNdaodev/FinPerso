@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -82,21 +82,28 @@ public class BudgetsFragment extends Fragment {
         int currentMois = cal.get(Calendar.MONTH) + 1;
         int currentAnnee = cal.get(Calendar.YEAR);
 
+        List<String> catNoms = new ArrayList<>();
+        catNoms.add("Budget Global");
         if (categoriesList != null) {
-            ArrayAdapter<String> catAdapter = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    categoriesList.stream().map(c -> c.nom).toArray(String[]::new));
-            catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerCategorie.setAdapter(catAdapter);
+            for (Categorie c : categoriesList) catNoms.add(c.nom);
         }
 
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, catNoms);
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategorie.setAdapter(catAdapter);
+
         if (existing != null && categoriesList != null) {
-            for (int i = 0; i < categoriesList.size(); i++) {
-                if (categoriesList.get(i).id == existing.categorieId) {
-                    spinnerCategorie.setSelection(i);
-                    break;
+            int index = 0;
+            if (existing.categorieId != null) {
+                for (int i = 0; i < categoriesList.size(); i++) {
+                    if (categoriesList.get(i).id == existing.categorieId) {
+                        index = i + 1;
+                        break;
+                    }
                 }
             }
+            spinnerCategorie.setSelection(index);
             etMontant.setText(String.valueOf(existing.montantPlafond));
         }
 
@@ -115,12 +122,16 @@ public class BudgetsFragment extends Fragment {
                     return;
                 }
                 double montant = Double.parseDouble(montantStr);
-                int catIndex = spinnerCategorie.getSelectedItemPosition();
-                if (categoriesList == null || catIndex < 0) {
-                    Toast.makeText(requireContext(), "Sélectionnez une catégorie", Toast.LENGTH_SHORT).show();
+                if (montant <= 0) {
+                    Snackbar.make(requireView(), "Le plafond doit être supérieur à 0", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                int categorieId = categoriesList.get(catIndex).id;
+
+                int catIndex = spinnerCategorie.getSelectedItemPosition();
+                Integer categorieId = null;
+                if (catIndex > 0 && categoriesList != null && catIndex - 1 < categoriesList.size()) {
+                    categorieId = categoriesList.get(catIndex - 1).id;
+                }
 
                 viewModel.insertOrUpdate(categorieId, montant, currentMois, currentAnnee);
                 Snackbar.make(requireView(), "Budget enregistré", Snackbar.LENGTH_SHORT).show();

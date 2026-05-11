@@ -32,4 +32,8 @@ public class AuthViewModel extends AndroidViewModel {
     public void register(Utilisateur user) {
         repository.register(user);
     }
+
+    public void updateUser(Utilisateur user) {
+        repository.updateUser(user);
+    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,14 +24,17 @@ import java.util.Locale;
 
 import sn.esmt.finperso.R;
 import sn.esmt.finperso.adapter.DepenseAdapter;
+import sn.esmt.finperso.model.BudgetAvecProgression;
 import sn.esmt.finperso.viewmodel.DashboardViewModel;
 
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel viewModel;
-    private TextView tvSolde, tvTotalDepenses, tvTotalRevenus, tvMoisAnnee;
+    private TextView tvSolde, tvTotalDepenses, tvTotalRevenus, tvMoisAnnee, tvSectionBudgets;
     private RecyclerView rvDernieres;
     private DepenseAdapter adapter;
+    private LinearLayout layoutAlertesBudgets;
+    private FloatingActionButton fabQuickAdd;
 
     @Nullable
     @Override
@@ -46,7 +52,10 @@ public class DashboardFragment extends Fragment {
         tvTotalDepenses = view.findViewById(R.id.tv_total_depenses);
         tvTotalRevenus = view.findViewById(R.id.tv_total_revenus);
         tvMoisAnnee = view.findViewById(R.id.tv_mois_annee);
+        tvSectionBudgets = view.findViewById(R.id.tv_section_budgets);
         rvDernieres = view.findViewById(R.id.rv_dernieres_depenses);
+        layoutAlertesBudgets = view.findViewById(R.id.layout_alertes_budgets);
+        fabQuickAdd = view.findViewById(R.id.fab_quick_add_depense);
 
         Calendar cal = Calendar.getInstance();
         String moisStr = new SimpleDateFormat("MMMM yyyy", Locale.FRENCH).format(cal.getTime());
@@ -78,5 +87,61 @@ public class DashboardFragment extends Fragment {
         viewModel.getTotalRevenus(mois, annee).observe(getViewLifecycleOwner(), total -> {
             tvTotalRevenus.setText(new DecimalFormat("#,###").format(total) + " Fcfa");
         });
+
+        viewModel.getBudgetsCritiques(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+                .observe(getViewLifecycleOwner(), budgets -> {
+                    afficherAlertesBudgets(budgets);
+                });
+
+        fabQuickAdd.setOnClickListener(v -> {
+            requireActivity().findViewById(R.id.bottom_navigation).post(() -> {
+                try {
+                    com.google.android.material.bottomnavigation.BottomNavigationView nav =
+                            requireActivity().findViewById(R.id.bottom_navigation);
+                    nav.setSelectedItemId(R.id.nav_depenses);
+                } catch (Exception e) {
+                    DepensesFragment frag = new DepensesFragment();
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, frag)
+                            .commit();
+                }
+            });
+        });
+    }
+
+    private void afficherAlertesBudgets(java.util.List<BudgetAvecProgression> budgets) {
+        layoutAlertesBudgets.removeAllViews();
+        boolean aAlertes = false;
+
+        for (BudgetAvecProgression b : budgets) {
+            if (b.montantPlafond <= 0) continue;
+            double progression = (b.montantConsomme / b.montantPlafond) * 100;
+            if (progression >= 70) {
+                aAlertes = true;
+                View alertView = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.item_budget_mini, layoutAlertesBudgets, false);
+
+                TextView tvNom = alertView.findViewById(R.id.tv_alerte_nom);
+                TextView tvProgression = alertView.findViewById(R.id.tv_alerte_progression);
+                View indicator = alertView.findViewById(R.id.view_alerte_indicator);
+
+                String nom = b.categorieNom != null ? b.categorieNom : "Budget Global";
+                tvNom.setText(nom);
+
+                DecimalFormat df = new DecimalFormat("#,###");
+                tvProgression.setText(df.format(b.montantConsomme) + " / " + df.format(b.montantPlafond) + " Fcfa (" + (int)progression + "%)");
+
+                int color;
+                if (progression >= 90) color = ContextCompat.getColor(requireContext(), R.color.rouge);
+                else if (progression >= 70) color = ContextCompat.getColor(requireContext(), R.color.orange);
+                else color = ContextCompat.getColor(requireContext(), R.color.vert);
+                indicator.setBackgroundColor(color);
+
+                layoutAlertesBudgets.addView(alertView);
+            }
+        }
+
+        tvSectionBudgets.setVisibility(aAlertes ? View.VISIBLE : View.GONE);
     }
 }

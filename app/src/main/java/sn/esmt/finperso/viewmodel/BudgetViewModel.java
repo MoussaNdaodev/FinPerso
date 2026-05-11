@@ -46,15 +46,24 @@ public class BudgetViewModel extends AndroidViewModel {
         AppDatabase.databaseWriteExecutor.execute(() -> db.budgetDao().delete(budget));
     }
 
-    public void insertOrUpdate(int categorieId, double montantPlafond, int mois, int annee) {
+    public void insertOrUpdate(Integer categorieId, double montantPlafond, int mois, int annee) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            Budget existing = db.budgetDao().getBudgetByCategorie(categorieId, mois, annee);
-            if (existing != null) {
-                existing.montantPlafond = montantPlafond;
-                db.budgetDao().update(existing);
+            if (categorieId != null) {
+                Budget existing = db.budgetDao().getBudgetByCategorie(categorieId, mois, annee);
+                if (existing != null) {
+                    existing.montantPlafond = montantPlafond;
+                    db.budgetDao().update(existing);
+                } else {
+                    db.budgetDao().insert(new Budget(categorieId, montantPlafond, mois, annee));
+                }
             } else {
-                Budget newBudget = new Budget(categorieId, montantPlafond, mois, annee);
-                db.budgetDao().insert(newBudget);
+                Budget global = db.budgetDao().getBudgetGlobal(mois, annee);
+                if (global != null) {
+                    global.montantPlafond = montantPlafond;
+                    db.budgetDao().update(global);
+                } else {
+                    db.budgetDao().insert(new Budget(null, montantPlafond, mois, annee));
+                }
             }
         });
     }

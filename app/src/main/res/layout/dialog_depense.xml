@@ -64,6 +64,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:text="Rubrique (optionnel)"
+        android:textColor="@color/text_secondary" />
+
+    <Spinner
+        android:id="@+id/spinner_rubrique"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/spinner_background" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="Moyen de paiement"
         android:textColor="@color/text_secondary" />
 

@@ -1,5 +1,6 @@
 package sn.esmt.finperso.adapter;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
@@ -76,7 +78,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
 
         void bind(BudgetAvecProgression budget) {
             DecimalFormat df = new DecimalFormat("#,###");
-            tvCategorieNom.setText(budget.categorieNom != null ? budget.categorieNom : "Catégorie");
+            String nomCategorie = budget.categorieNom != null ? budget.categorieNom : "Budget Global";
+            tvCategorieNom.setText(nomCategorie);
             tvBudgetMontant.setText(df.format(budget.montantPlafond) + " Fcfa");
 
             double consomme = budget.montantConsomme;
@@ -87,7 +90,18 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
             }
 
             progressBudget.setProgress(progression);
-            tvConsomme.setText(df.format(consomme) + " Fcfa dépensé");
+
+            int progressColor;
+            if (progression < 70) {
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.vert);
+            } else if (progression < 90) {
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.orange);
+            } else {
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.rouge);
+            }
+            progressBudget.setProgressTintList(ColorStateList.valueOf(progressColor));
+
+            tvConsomme.setText(df.format(consomme) + " Fcfa dépensé (" + progression + "%)");
 
             if (restant >= 0) {
                 tvRestant.setText(df.format(restant) + " Fcfa restant");
@@ -97,6 +111,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
                 tvRestant.setText(df.format(Math.abs(restant)) + " Fcfa dépassé");
                 tvRestant.setTextColor(Color.parseColor("#F44336"));
                 progressBudget.setProgress(100);
+                progressBudget.setProgressTintList(ColorStateList.valueOf(
+                        ContextCompat.getColor(itemView.getContext(), R.color.rouge)));
                 tvDepassement.setVisibility(View.VISIBLE);
             }
         }

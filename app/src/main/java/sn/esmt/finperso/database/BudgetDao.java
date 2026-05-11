@@ -29,6 +29,9 @@ public interface BudgetDao {
     @Query("SELECT * FROM budgets WHERE categorieId = :categorieId AND mois = :mois AND annee = :annee LIMIT 1")
     Budget getBudgetByCategorie(int categorieId, int mois, int annee);
 
+    @Query("SELECT * FROM budgets WHERE categorieId IS NULL AND mois = :mois AND annee = :annee LIMIT 1")
+    Budget getBudgetGlobal(int mois, int annee);
+
     @Query("SELECT b.id AS budgetId, b.categorieId, c.nom AS categorieNom, " +
             "c.couleur AS categorieCouleur, b.montantPlafond, b.mois, b.annee, " +
             "COALESCE((SELECT SUM(d.montant) FROM depenses d " +
@@ -38,7 +41,8 @@ public interface BudgetDao {
             "), 0) AS montantConsomme " +
             "FROM budgets b " +
             "LEFT JOIN categories c ON b.categorieId = c.id " +
-            "WHERE b.categorieId IS NOT NULL AND b.mois = :mois AND b.annee = :annee " +
-            "ORDER BY c.nom ASC")
+            "WHERE ((b.categorieId IS NOT NULL AND b.mois = :mois AND b.annee = :annee) " +
+            "OR (b.categorieId IS NULL AND b.mois = :mois AND b.annee = :annee)) " +
+            "ORDER BY CASE WHEN b.categorieId IS NULL THEN 0 ELSE 1 END, c.nom ASC")
     LiveData<List<BudgetAvecProgression>> getBudgetsAvecProgressionParMois(int mois, int annee);
 }

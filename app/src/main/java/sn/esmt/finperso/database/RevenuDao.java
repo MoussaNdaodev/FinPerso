@@ -29,12 +29,12 @@ public interface RevenuDao {
             "WHERE strftime('%m', datetime(date/1000,'unixepoch')) = :mois " +
             "AND strftime('%Y', datetime(date/1000,'unixepoch')) = :annee " +
             "ORDER BY date DESC")
-    LiveData<List<Revenu>> getRevenusByMois(String mois, String annee);
+    LiveData<List<Revenu>> getRevenusFiltres(String mois, String annee);
 
     @Query("SELECT COALESCE(SUM(montant), 0) FROM revenus " +
             "WHERE strftime('%m', datetime(date/1000,'unixepoch')) = :mois " +
             "AND strftime('%Y', datetime(date/1000,'unixepoch')) = :annee")
-    double getTotalRevenusParMois(String mois, String annee);
+    LiveData<Double> getTotalRevenusParMois(String mois, String annee);
 
     @Query("SELECT * FROM revenus WHERE id = :id LIMIT 1")
     Revenu getRevenuById(int id);

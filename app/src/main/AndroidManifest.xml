@@ -13,9 +13,9 @@
         android:theme="@style/Theme.FinPerso">
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
-            android:label="@string/title_activity_login">
+            android:theme="@style/Theme.FinPerso">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,11 +23,20 @@
         </activity>
 
         <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+
+        <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
 
         <activity
             android:name=".ui.ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ParametresActivity"
             android:exported="false" />
 
     </application>

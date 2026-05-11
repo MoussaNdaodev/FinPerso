@@ -47,7 +47,6 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "finperso_db"
                             )
-                            .allowMainThreadQueries()
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -67,50 +66,54 @@ public abstract class AppDatabase extends RoomDatabase {
         CategorieDao catDao = db.categorieDao();
         RubriqueDao rubDao = db.rubriqueDao();
 
-        Utilisateur defaultUser = new Utilisateur("Utilisateur", "admin@finperso.sn", "admin123");
-        utilisateurDao.insert(defaultUser);
-
-        String[][] categories = {
-                {"Alimentation",  "#F44336"},
-                {"Transport",     "#2196F3"},
-                {"Logement",      "#9C27B0"},
-                {"Santé",         "#4CAF50"},
-                {"Education",     "#FF9800"},
-                {"Loisirs",       "#00BCD4"},
-                {"Habillement",   "#E91E63"},
-                {"Autre",         "#607D8B"},
-        };
-
-        String[][] rubriques = {
-                {"Alimentation",  "Restaurant"},
-                {"Alimentation",  "Marché"},
-                {"Alimentation",  "Épicerie"},
-                {"Transport",     "Taxi"},
-                {"Transport",     "Bus"},
-                {"Transport",     "Carburant"},
-                {"Logement",      "Loyer"},
-                {"Logement",      "Électricité"},
-                {"Logement",      "Eau"},
-                {"Santé",         "Pharmacie"},
-                {"Santé",         "Consultation"},
-                {"Education",     "Frais scolaires"},
-                {"Education",     "Fournitures"},
-                {"Loisirs",       "Divertissement"},
-                {"Loisirs",       "Sport"},
-                {"Habillement",   "Vêtements"},
-                {"Habillement",   "Chaussures"},
-        };
-
-        for (String[] cat : categories) {
-            Categorie c = new Categorie(cat[0], cat[1], true);
-            catDao.insert(c);
+        if (utilisateurDao.getUserByEmail("admin@finperso.sn") == null) {
+            Utilisateur defaultUser = new Utilisateur("Utilisateur", "admin@finperso.sn", "admin123");
+            utilisateurDao.insert(defaultUser);
         }
 
-        for (String[] rub : rubriques) {
-            Categorie cat = catDao.getAllCategoriesSync()
-                    .stream().filter(c -> c.nom.equals(rub[0])).findFirst().orElse(null);
-            if (cat != null) {
-                rubDao.insert(new Rubrique(cat.id, rub[1]));
+        if (catDao.getAllCategoriesSync().isEmpty()) {
+            String[][] categories = {
+                    {"Alimentation",  "#F44336"},
+                    {"Transport",     "#2196F3"},
+                    {"Logement",      "#9C27B0"},
+                    {"Santé",         "#4CAF50"},
+                    {"Education",     "#FF9800"},
+                    {"Loisirs",       "#00BCD4"},
+                    {"Habillement",   "#E91E63"},
+                    {"Autre",         "#607D8B"},
+            };
+
+            String[][] rubriques = {
+                    {"Alimentation",  "Restaurant"},
+                    {"Alimentation",  "Marché"},
+                    {"Alimentation",  "Épicerie"},
+                    {"Transport",     "Taxi"},
+                    {"Transport",     "Bus"},
+                    {"Transport",     "Carburant"},
+                    {"Logement",      "Loyer"},
+                    {"Logement",      "Électricité"},
+                    {"Logement",      "Eau"},
+                    {"Santé",         "Pharmacie"},
+                    {"Santé",         "Consultation"},
+                    {"Education",     "Frais scolaires"},
+                    {"Education",     "Fournitures"},
+                    {"Loisirs",       "Divertissement"},
+                    {"Loisirs",       "Sport"},
+                    {"Habillement",   "Vêtements"},
+                    {"Habillement",   "Chaussures"},
+            };
+
+            for (String[] cat : categories) {
+                Categorie c = new Categorie(cat[0], cat[1], true);
+                catDao.insert(c);
+            }
+
+            for (String[] rub : rubriques) {
+                Categorie cat = catDao.getAllCategoriesSync()
+                        .stream().filter(c -> c.nom.equals(rub[0])).findFirst().orElse(null);
+                if (cat != null) {
+                    rubDao.insert(new Rubrique(cat.id, rub[1]));
+                }
             }
         }
     }
