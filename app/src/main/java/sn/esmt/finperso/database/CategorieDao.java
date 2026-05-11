@@ -30,4 +30,7 @@ public interface CategorieDao {
 
     @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")
     Categorie getCategorieById(int id);
+
+    @Query("DELETE FROM categories")
+    void deleteAll();
 }

@@ -14,7 +14,9 @@
             android:id="@+id/et_montant_revenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -27,7 +29,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_description_revenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,7 +47,9 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="false"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

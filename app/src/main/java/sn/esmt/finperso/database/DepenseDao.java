@@ -79,4 +79,7 @@ public interface DepenseDao {
 
     @Query("SELECT COALESCE(SUM(montant), 0) FROM depenses WHERE categorieId = :categorieId")
     LiveData<Double> getTotalDepensesByCategorie(int categorieId);
+
+    @Query("DELETE FROM depenses")
+    void deleteAll();
 }

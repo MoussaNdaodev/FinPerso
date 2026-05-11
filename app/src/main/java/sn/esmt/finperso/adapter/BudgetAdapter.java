@@ -1,7 +1,6 @@
 package sn.esmt.finperso.adapter;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,11 +92,11 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
 
             int progressColor;
             if (progression < 70) {
-                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.vert);
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.positive);
             } else if (progression < 90) {
-                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.orange);
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.warning);
             } else {
-                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.rouge);
+                progressColor = ContextCompat.getColor(itemView.getContext(), R.color.negative);
             }
             progressBudget.setProgressTintList(ColorStateList.valueOf(progressColor));
 
@@ -105,14 +104,14 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
 
             if (restant >= 0) {
                 tvRestant.setText(df.format(restant) + " Fcfa restant");
-                tvRestant.setTextColor(Color.parseColor("#4CAF50"));
+                tvRestant.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.positive));
                 tvDepassement.setVisibility(View.GONE);
             } else {
                 tvRestant.setText(df.format(Math.abs(restant)) + " Fcfa dépassé");
-                tvRestant.setTextColor(Color.parseColor("#F44336"));
+                tvRestant.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.negative));
                 progressBudget.setProgress(100);
                 progressBudget.setProgressTintList(ColorStateList.valueOf(
-                        ContextCompat.getColor(itemView.getContext(), R.color.rouge)));
+                        ContextCompat.getColor(itemView.getContext(), R.color.negative)));
                 tvDepassement.setVisibility(View.VISIBLE);
             }
         }

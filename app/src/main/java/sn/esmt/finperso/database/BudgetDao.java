@@ -45,4 +45,7 @@ public interface BudgetDao {
             "OR (b.categorieId IS NULL AND b.mois = :mois AND b.annee = :annee)) " +
             "ORDER BY CASE WHEN b.categorieId IS NULL THEN 0 ELSE 1 END, c.nom ASC")
     LiveData<List<BudgetAvecProgression>> getBudgetsAvecProgressionParMois(int mois, int annee);
+
+    @Query("DELETE FROM budgets")
+    void deleteAll();
 }

@@ -30,4 +30,7 @@ public interface RubriqueDao {
 
     @Query("SELECT * FROM rubriques WHERE id = :id LIMIT 1")
     Rubrique getRubriqueById(int id);
+
+    @Query("DELETE FROM rubriques")
+    void deleteAll();
 }

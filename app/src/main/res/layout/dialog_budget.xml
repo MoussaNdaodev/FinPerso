@@ -14,7 +14,9 @@
             android:id="@+id/et_montant_budget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

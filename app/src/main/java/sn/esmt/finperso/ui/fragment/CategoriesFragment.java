@@ -96,8 +96,8 @@ public class CategoriesFragment extends Fragment {
         String[] couleurs = {"#F44336 (Rouge)", "#2196F3 (Bleu)", "#9C27B0 (Violet)",
                 "#4CAF50 (Vert)", "#FF9800 (Orange)", "#00BCD4 (Cyan)", "#E91E63 (Rose)", "#607D8B (Gris)"};
         ArrayAdapter<String> couleurAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, couleurs);
-        couleurAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, couleurs);
+        couleurAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerCouleur.setAdapter(couleurAdapter);
 
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
@@ -137,8 +137,8 @@ public class CategoriesFragment extends Fragment {
         String[] couleursAffichees = {"#F44336 (Rouge)", "#2196F3 (Bleu)", "#9C27B0 (Violet)",
                 "#4CAF50 (Vert)", "#FF9800 (Orange)", "#00BCD4 (Cyan)", "#E91E63 (Rose)", "#607D8B (Gris)"};
         ArrayAdapter<String> couleurAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, couleursAffichees);
-        couleurAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, couleursAffichees);
+        couleurAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerCouleur.setAdapter(couleurAdapter);
 
         String[] couleursHex = {"#F44336", "#2196F3", "#9C27B0", "#4CAF50", "#FF9800", "#00BCD4", "#E91E63", "#607D8B"};

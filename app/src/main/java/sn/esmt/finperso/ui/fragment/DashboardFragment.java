@@ -76,8 +76,7 @@ public class DashboardFragment extends Fragment {
         viewModel.getSolde(mois, annee).observe(getViewLifecycleOwner(), solde -> {
             DecimalFormat df = new DecimalFormat("#,###");
             tvSolde.setText(df.format(solde) + " Fcfa");
-            tvSolde.setTextColor(ContextCompat.getColor(requireContext(), 
-                solde >= 0 ? R.color.vert : R.color.rouge));
+            tvSolde.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
         });
 
         viewModel.getTotalDepenses(mois, annee).observe(getViewLifecycleOwner(), total -> {
@@ -133,9 +132,9 @@ public class DashboardFragment extends Fragment {
                 tvProgression.setText(df.format(b.montantConsomme) + " / " + df.format(b.montantPlafond) + " Fcfa (" + (int)progression + "%)");
 
                 int color;
-                if (progression >= 90) color = ContextCompat.getColor(requireContext(), R.color.rouge);
-                else if (progression >= 70) color = ContextCompat.getColor(requireContext(), R.color.orange);
-                else color = ContextCompat.getColor(requireContext(), R.color.vert);
+                if (progression >= 90) color = ContextCompat.getColor(requireContext(), R.color.negative);
+                else if (progression >= 70) color = ContextCompat.getColor(requireContext(), R.color.warning);
+                else color = ContextCompat.getColor(requireContext(), R.color.positive);
                 indicator.setBackgroundColor(color);
 
                 layoutAlertesBudgets.addView(alertView);

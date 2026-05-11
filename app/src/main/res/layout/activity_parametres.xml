@@ -46,7 +46,9 @@
                     android:id="@+id/et_nom_utilisateur"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Utilisateur" />
+                    android:text="Utilisateur"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

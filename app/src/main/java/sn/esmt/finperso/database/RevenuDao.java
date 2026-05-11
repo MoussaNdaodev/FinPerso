@@ -38,4 +38,7 @@ public interface RevenuDao {
 
     @Query("SELECT * FROM revenus WHERE id = :id LIMIT 1")
     Revenu getRevenuById(int id);
+
+    @Query("DELETE FROM revenus")
+    void deleteAll();
 }

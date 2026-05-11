@@ -1,12 +1,12 @@
 package sn.esmt.finperso.adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
@@ -76,7 +76,7 @@ public class RevenuAdapter extends RecyclerView.Adapter<RevenuAdapter.ViewHolder
         void bind(Revenu revenu) {
             DecimalFormat df = new DecimalFormat("#,###");
             tvMontant.setText("+" + df.format(revenu.montant) + " Fcfa");
-            tvMontant.setTextColor(Color.parseColor("#4CAF50"));
+            tvMontant.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.positive));
             tvSource.setText(revenu.source != null ? revenu.source : "");
             tvDescription.setText(revenu.description != null ? revenu.description : "");
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);

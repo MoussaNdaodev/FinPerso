@@ -61,6 +61,20 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    public static void resetFinancialData(Context context) {
+        databaseWriteExecutor.execute(() -> {
+            AppDatabase db = getInstance(context);
+            db.runInTransaction(() -> {
+                db.depenseDao().deleteAll();
+                db.revenuDao().deleteAll();
+                db.budgetDao().deleteAll();
+                db.rubriqueDao().deleteAll();
+                db.categorieDao().deleteAll();
+            });
+            seedDatabase(db);
+        });
+    }
+
     private static void seedDatabase(AppDatabase db) {
         UtilisateurDao utilisateurDao = db.utilisateurDao();
         CategorieDao catDao = db.categorieDao();

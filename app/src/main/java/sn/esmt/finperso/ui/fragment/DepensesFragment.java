@@ -76,8 +76,8 @@ public class DepensesFragment extends Fragment {
             catNoms.add("Toutes");
             for (Categorie c : cats) catNoms.add(c.nom);
             ArrayAdapter<String> catAdapter = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_spinner_item, catNoms);
-            catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    R.layout.item_spinner, catNoms);
+            catAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
             spinnerFiltreCategorie.setAdapter(catAdapter);
         });
 
@@ -87,8 +87,8 @@ public class DepensesFragment extends Fragment {
     private void setupFiltres() {
         String[] periodes = {"Ce mois-ci", "Cette semaine", "Aujourd'hui"};
         ArrayAdapter<String> periodeAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, periodes);
-        periodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, periodes);
+        periodeAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerFiltrePeriode.setAdapter(periodeAdapter);
 
         spinnerFiltrePeriode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -165,9 +165,9 @@ public class DepensesFragment extends Fragment {
 
         if (categoriesList != null) {
             ArrayAdapter<String> catAdapter = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_spinner_item,
+                    R.layout.item_spinner,
                     categoriesList.stream().map(c -> c.nom).toArray(String[]::new));
-            catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            catAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
             spinnerCategorie.setAdapter(catAdapter);
 
             spinnerCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -182,14 +182,14 @@ public class DepensesFragment extends Fragment {
 
         String[] paiements = {"Espèces", "Mobile Money", "Carte", "Autre"};
         ArrayAdapter<String> paiAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, paiements);
-        paiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, paiements);
+        paiAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerPaiement.setAdapter(paiAdapter);
 
         String[] rubriquesVide = {"Aucune"};
         ArrayAdapter<String> videAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, rubriquesVide);
-        videAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, rubriquesVide);
+        videAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerRubrique.setAdapter(videAdapter);
 
         if (existing != null) {
@@ -268,8 +268,8 @@ public class DepensesFragment extends Fragment {
                 for (Rubrique r : rubriques) noms.add(r.nom);
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_spinner_item, noms);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    R.layout.item_spinner, noms);
+            adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
             spinnerRubrique.setAdapter(adapter);
         });
     }

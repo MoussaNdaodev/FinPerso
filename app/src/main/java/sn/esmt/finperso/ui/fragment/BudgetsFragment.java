@@ -89,8 +89,8 @@ public class BudgetsFragment extends Fragment {
         }
 
         ArrayAdapter<String> catAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, catNoms);
-        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, catNoms);
+        catAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerCategorie.setAdapter(catAdapter);
 
         if (existing != null && categoriesList != null) {

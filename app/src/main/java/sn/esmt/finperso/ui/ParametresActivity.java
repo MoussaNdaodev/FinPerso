@@ -39,8 +39,8 @@ public class ParametresActivity extends AppCompatActivity {
 
         String[] devises = {"FCFA (XOF)", "Euro (EUR)", "Dollar (USD)", "Franc CFA (XAF)"};
         ArrayAdapter<String> deviseAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, devises);
-        deviseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, devises);
+        deviseAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerDevise.setAdapter(deviseAdapter);
 
         SharedPreferences prefs = getSharedPreferences("finperso_settings", MODE_PRIVATE);
@@ -86,16 +86,11 @@ public class ParametresActivity extends AppCompatActivity {
         btnReinitialiser.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle("Réinitialisation")
-                    .setMessage("Voulez-vous vraiment supprimer toutes les données ? Cette action est irréversible.")
+                    .setMessage("Voulez-vous vraiment supprimer toutes les données (dépenses, revenus, budgets, catégories) ? Cette action est irréversible.")
                     .setPositiveButton("Oui, tout supprimer", (d, w) -> {
-                        AppDatabase.databaseWriteExecutor.execute(() -> {
-                            AppDatabase db = AppDatabase.getInstance(this);
-                            db.clearAllTables();
-                            db.close();
-                            AppDatabase.getInstance(this);
-                        });
+                        AppDatabase.resetFinancialData(this);
                         Toast.makeText(this, "Données réinitialisées", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, LoginActivity.class));
+                        startActivity(new Intent(this, MainActivity.class));
                         finishAffinity();
                     })
                     .setNegativeButton("Annuler", null)

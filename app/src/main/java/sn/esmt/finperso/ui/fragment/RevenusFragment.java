@@ -63,8 +63,8 @@ public class RevenusFragment extends Fragment {
 
         String[] periodes = {"Tous", "Ce mois-ci", "Cette semaine", "Aujourd'hui"};
         ArrayAdapter<String> periodeAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, periodes);
-        periodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, periodes);
+        periodeAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerFiltrePeriode.setAdapter(periodeAdapter);
 
         spinnerFiltrePeriode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -110,8 +110,8 @@ public class RevenusFragment extends Fragment {
 
         String[] sources = {"Salaire", "Commerce", "Freelance", "Don", "Autre"};
         ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, sources);
-        srcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.item_spinner, sources);
+        srcAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerSource.setAdapter(srcAdapter);
 
         Calendar cal = Calendar.getInstance();

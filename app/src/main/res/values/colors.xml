@@ -2,15 +2,28 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#0B1326</color>
-    <color name="primary">#5AF0B3</color>
-    <color name="primary_dark">#003825</color>
-    <color name="surface">#171F33</color>
-    <color name="surface_light">#222A3D</color>
-    <color name="text_primary">#DAE2FD</color>
-    <color name="text_secondary">#BBCAC0</color>
-    <color name="accent_orange">#F97316</color>
-    <color name="vert">#4CAF50</color>
-    <color name="rouge">#F44336</color>
-    <color name="orange">#FF9800</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="background">#0D1117</color>
+    <color name="surface">#161B22</color>
+    <color name="surface_variant">#21262D</color>
+
+    <color name="primary">#58A6FF</color>
+    <color name="primary_dark">#1F6FEB</color>
+    <color name="primary_container">#1A3A5C</color>
+    <color name="on_primary">#0D1117</color>
+
+    <color name="positive">#3FB950</color>
+    <color name="negative">#F85149</color>
+    <color name="warning">#D29922</color>
+    <color name="info">#79C0FF</color>
+
+    <color name="text_primary">#F0F6FC</color>
+    <color name="text_secondary">#8B949E</color>
+    <color name="text_disabled">#484F58</color>
+
+    <color name="vert">#3FB950</color>
+    <color name="rouge">#F85149</color>
+    <color name="orange">#D29922</color>
+    <color name="accent_orange">#D29922</color>
 </resources>

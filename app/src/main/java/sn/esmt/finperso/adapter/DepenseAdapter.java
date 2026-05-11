@@ -1,12 +1,12 @@
 package sn.esmt.finperso.adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
@@ -76,7 +76,7 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.ViewHold
         void bind(DepenseAvecCategorie depense) {
             DecimalFormat df = new DecimalFormat("#,###");
             tvMontant.setText("-" + df.format(depense.montant) + " Fcfa");
-            tvMontant.setTextColor(Color.parseColor("#F44336"));
+            tvMontant.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.negative));
             tvDescription.setText(depense.description != null ? depense.description : "");
             tvCategorie.setText(depense.categorieNom != null ? depense.categorieNom : "");
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);

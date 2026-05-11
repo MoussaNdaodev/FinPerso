@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:text="Supprimer"
-        android:textColor="@color/rouge"
+        android:textColor="@color/negative"
         android:textSize="12sp" />
 
 </LinearLayout>
